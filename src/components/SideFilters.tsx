@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import CheckboxFive from './CheckboxFive';
+import CheckboxOne from './CheckboxOne';
 
 interface SideFiltersProps {
 }
@@ -24,13 +25,13 @@ const SideFilters = ({ }: SideFiltersProps) => {
 
           <ul className="mb-6 flex flex-col gap-1.5">
             <li>
-              <CheckboxFive label="Fraud" />
+              <CheckboxOne label="Fraud" />
             </li>
             <li>
-              <CheckboxFive label="Waste" />
+              <CheckboxOne label="Waste" />
             </li>
             <li>
-              <CheckboxFive label="Normal" />
+              <CheckboxOne label="Normal" />
             </li>
             <li>
 

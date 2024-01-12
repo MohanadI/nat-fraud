@@ -16,7 +16,10 @@ import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
-import { Box, Button, Drawer, Stack } from '@mui/material'
+import { Box, Button, Drawer, IconButton, Menu, MenuItem, Stack, Tooltip } from '@mui/material'
+import Chip from 'src/@core/components/mui/chip'
+import ActionsMenu from './ActionsMenu'
+import Icon from 'src/@core/components/icon'
 
 interface StatusObj {
   [key: number]: {
@@ -30,16 +33,9 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const rows = [
   {
     id: 1,
-    avatar: '8.png',
-    full_name: "Korrie O'Crevy",
-    post: 'Nuclear Power Engineer',
-    email: 'kocrevy0@thetimes.co.uk',
-    city: 'Krasnosilka',
-    start_date: '09/23/2016',
-    salary: 23896.35,
-    age: '61',
-    experience: '1 Year',
-    status: 2
+    full_name: "Report 6574",
+    filters: ["19/12/2023", "Arab Hospital"],
+    result: [20, 30, 50],
   }];
 
 const ReportsPage = () => {
@@ -67,6 +63,17 @@ const ReportsPage = () => {
 
   const columns: GridColDef[] = [
     {
+      flex: 0.125,
+      field: 'id',
+      minWidth: 80,
+      headerName: 'Id',
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {params.row.id}
+        </Typography>
+      )
+    },
+    {
       flex: 0.275,
       minWidth: 290,
       field: 'full_name',
@@ -86,55 +93,54 @@ const ReportsPage = () => {
     },
     {
       flex: 0.2,
-      type: 'date',
-      minWidth: 120,
-      headerName: 'Date',
-      field: 'start_date',
-      valueGetter: params => new Date(params.value),
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {params.row.start_date}
-        </Typography>
-      )
-    },
-    {
-      flex: 0.2,
       minWidth: 110,
-      field: 'salary',
-      headerName: 'Salary',
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {params.row.salary}
-        </Typography>
-      )
-    },
-    {
-      flex: 0.125,
-      field: 'age',
-      minWidth: 80,
-      headerName: 'Age',
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {params.row.age}
-        </Typography>
-      )
+      field: 'filters',
+      headerName: 'Filters',
+      renderCell: (params: GridRenderCellParams) => {
+        return <>
+          {params.row.filters.map((item: any) => {
+            return <Chip label='Outlined' variant='outlined' />
+          })}
+        </>
+      }
     },
     {
       flex: 0.2,
       minWidth: 140,
-      field: 'status',
-      headerName: 'Status',
+      field: 'result',
+      headerName: 'Result',
       renderCell: (params: GridRenderCellParams) => {
-        const status = statusObj[params.row.status]
+        return <div className="grid-result-chart " style={{ display: 'flex', height: '10px', width: '100%', maxWidth: '200px', borderRadius: '30px', overflow: 'hidden' }}>
 
+          <Tooltip title={`Fraud: ${params.row.result[0]}%`} placement='top'>
+            <div className="grid-result-fraud" style={{ width: params.row.result[0] + '%', background: 'red', height: '100%' }}></div>
+          </Tooltip>
+
+          <Tooltip title={`Waste: ${params.row.result[1]}%`} placement='top'>
+            <div className="grid-result-waste" style={{ width: params.row.result[1] + '%', background: 'yellow', height: '100%' }}></div>
+          </Tooltip>
+          <Tooltip title={`Normal: ${params.row.result[2]}%`} placement='top'>
+            <div className="grid-result-normal" style={{ width: params.row.result[2] + '%', background: 'green', height: '100%' }}></div>
+          </Tooltip>
+        </div>
+      }
+    },
+    {
+      flex: 0.125,
+      minWidth: 140,
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: (params: GridRenderCellParams) => {
         return (
-          <CustomChip
-            size='small'
-            skin='light'
-            color={status.color}
-            label={status.title}
-            sx={{ '& .MuiChip-label': { textTransform: 'capitalize' } }}
-          />
+          <>
+            <IconButton>
+              <Icon icon='mdi:pencil' fontSize={20} />
+            </IconButton>
+            <IconButton>
+              <Icon icon='mdi:reload' fontSize={20} />
+            </IconButton>
+            <ActionsMenu></ActionsMenu>
+          </>
         )
       }
     }

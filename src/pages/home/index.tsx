@@ -49,7 +49,7 @@ const Home = () => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={6}>
+      <Grid item xs={2}>
         <CardStatsVertical
           stats='$13.4k'
           color='success'

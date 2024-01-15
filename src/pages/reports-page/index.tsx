@@ -48,6 +48,24 @@ const rows = [
     filters: ["20/01/2024", "Isteshari Hospital"],
     result: [10, 35, 55],
   },
+  {
+    id: 3,
+    full_name: "Report 1209",
+    filters: ["Dental", "Lab", "Policy:342"],
+    result: [12, 20, 68],
+  },
+  {
+    id: 4,
+    full_name: "Report 3214",
+    filters: ["22/04/2023-22/10/2023", "GP"],
+    result: [5, 35, 60],
+  },
+  {
+    id: 5,
+    full_name: "Report 3003",
+    filters: ["HOF", "Ramallah"],
+    result: [10, 35, 55],
+  },
 ];
 
 const ReportsPage = () => {

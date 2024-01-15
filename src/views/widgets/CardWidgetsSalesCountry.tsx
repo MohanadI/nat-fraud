@@ -81,7 +81,7 @@ const CardWidgetsSalesCountry = () => {
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { show: false },
-      categories: ['US', 'IN', 'JA', 'CA', 'AU'],
+      categories: ['Jerusalim', 'Ramallah', 'Nablus', 'Jenin', 'Jericho'],
       labels: {
         formatter: val => `${Number(val) / 1000}k`,
         style: {
@@ -105,8 +105,8 @@ const CardWidgetsSalesCountry = () => {
   return (
     <Card>
       <CardHeader
-        title='Sales Country'
-        subheader='Total $42,580 Sales'
+        title='Transactions City'
+        subheader='Total ₪42,580 Sales'
         subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
         titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
         action={

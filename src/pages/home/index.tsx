@@ -51,7 +51,7 @@ const Home = () => {
     <Grid container spacing={6}>
       <Grid item xs={2}>
         <CardStatsVertical
-          stats='$13.4k'
+          stats='₪13.4k'
           color='success'
           trendNumber='+38%'
           title='Total Sales'

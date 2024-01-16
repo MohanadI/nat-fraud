@@ -5,9 +5,13 @@ import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 
+// ** Styles
+import 'react-datepicker/dist/react-datepicker.css'
+
 // ** Types Imports
 import { ThemeColor } from 'src/@core/layouts/types'
 import { DataGridRowType } from 'src/@fake-db/types'
+import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
@@ -16,10 +20,13 @@ import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
-import { Box, Button, Drawer, IconButton, Menu, MenuItem, Stack, Tooltip } from '@mui/material'
+import { Box, Button, Divider, Drawer, IconButton, Menu, MenuItem, Select, Stack, TextField, Tooltip } from '@mui/material'
 import Chip from 'src/@core/components/mui/chip'
 import ActionsMenu from './ActionsMenu'
 import Icon from 'src/@core/components/icon'
+import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
+// ** Custom Component Imports
+import CustomInput from './PickersCustomInput'
 
 interface StatusObj {
   [key: number]: {
@@ -38,16 +45,14 @@ const rows = [
     result: [20, 30, 50],
   }];
 
-const ReportsPage = () => {
-
+const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProps['popperPlacement'] }) => {
   // ** States
   const [data, setData] = useState<DataGridRowType[]>(rows)
-  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
+  const [openDrawer, setOpenDrawer] = useState<boolean>(false)
   const [searchText, setSearchText] = useState<string>('')
   const [filteredData, setFilteredData] = useState<DataGridRowType[]>([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
-
-
+  const [date, setDate] = useState<DateType>(new Date())
 
   const statusObj: StatusObj = {
     1: { title: 'current', color: 'primary' },
@@ -83,10 +88,7 @@ const ReportsPage = () => {
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Link href='/report-details'>
-              {row.full_name}
-            </Link>
-
+            <Link href='/report-details'>{row.full_name}</Link>
           </Box>
         )
       }
@@ -97,11 +99,13 @@ const ReportsPage = () => {
       field: 'filters',
       headerName: 'Filters',
       renderCell: (params: GridRenderCellParams) => {
-        return <>
-          {params.row.filters.map((item: any) => {
-            return <Chip label='Outlined' variant='outlined' />
-          })}
-        </>
+        return (
+          <>
+            {params.row.filters.map((item: any) => {
+              return <Chip label='Outlined' variant='outlined' />
+            })}
+          </>
+        )
       }
     },
     {
@@ -110,19 +114,39 @@ const ReportsPage = () => {
       field: 'result',
       headerName: 'Result',
       renderCell: (params: GridRenderCellParams) => {
-        return <div className="grid-result-chart " style={{ display: 'flex', height: '10px', width: '100%', maxWidth: '200px', borderRadius: '30px', overflow: 'hidden' }}>
+        return (
+          <div
+            className='grid-result-chart '
+            style={{
+              display: 'flex',
+              height: '10px',
+              width: '100%',
+              maxWidth: '200px',
+              borderRadius: '30px',
+              overflow: 'hidden'
+            }}
+          >
+            <Tooltip title={`Fraud: ${params.row.result[0]}%`} placement='top'>
+              <div
+                className='grid-result-fraud'
+                style={{ width: params.row.result[0] + '%', background: 'red', height: '100%' }}
+              ></div>
+            </Tooltip>
 
-          <Tooltip title={`Fraud: ${params.row.result[0]}%`} placement='top'>
-            <div className="grid-result-fraud" style={{ width: params.row.result[0] + '%', background: 'red', height: '100%' }}></div>
-          </Tooltip>
-
-          <Tooltip title={`Waste: ${params.row.result[1]}%`} placement='top'>
-            <div className="grid-result-waste" style={{ width: params.row.result[1] + '%', background: 'yellow', height: '100%' }}></div>
-          </Tooltip>
-          <Tooltip title={`Normal: ${params.row.result[2]}%`} placement='top'>
-            <div className="grid-result-normal" style={{ width: params.row.result[2] + '%', background: 'green', height: '100%' }}></div>
-          </Tooltip>
-        </div>
+            <Tooltip title={`Waste: ${params.row.result[1]}%`} placement='top'>
+              <div
+                className='grid-result-waste'
+                style={{ width: params.row.result[1] + '%', background: 'yellow', height: '100%' }}
+              ></div>
+            </Tooltip>
+            <Tooltip title={`Normal: ${params.row.result[2]}%`} placement='top'>
+              <div
+                className='grid-result-normal'
+                style={{ width: params.row.result[2] + '%', background: 'green', height: '100%' }}
+              ></div>
+            </Tooltip>
+          </div>
+        )
       }
     },
     {
@@ -169,18 +193,156 @@ const ReportsPage = () => {
         open={openDrawer}
         onClose={(event: React.KeyboardEvent | React.MouseEvent) => setOpenDrawer(false)}
       >
-        test
+        <Box sx={{ width: 400, p: 4 }}>
+          <Typography component='h3' variant='body1' sx={{ mb: 4, fontWeight: 'bold', fontSize: 18 }}>
+            Create New Report
+          </Typography>
+          <Box sx={{ mb: 4 }}>
+            <Typography>Report Title</Typography>
+            <TextField size='small' fullWidth />
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>Date</Typography>
+            <DatePicker
+              selected={date}
+              id='basic-input'
+              popperPlacement={popperPlacement}
+              onChange={(date: Date) => setDate(date)}
+              placeholderText='Click to select a date'
+              customInput={<CustomInput />}
+            />
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>Provider</Typography>
+            <Select
+              label='Age'
+              size='small'
+              fullWidth
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              defaultValue=''
+            >
+              <MenuItem value={10}>Jawwal</MenuItem>
+              <MenuItem value={20}>Oreedo</MenuItem>
+              <MenuItem value={30}>PS Bank</MenuItem>
+            </Select>
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>Policy ID</Typography>
+            <TextField size='small' fullWidth />
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>Claim Payment Type</Typography>
+            <Select
+              label='Age'
+              size='small'
+              fullWidth
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              defaultValue=''
+            >
+              <MenuItem value={10}>Cash</MenuItem>
+              <MenuItem value={20}>Cheque</MenuItem>
+              <MenuItem value={30}>Credit Card</MenuItem>
+              <MenuItem value={30}>Online Banking</MenuItem>
+            </Select>
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>Doctor</Typography>
+            <TextField size='small' fullWidth />
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>City</Typography>
+            <Select
+              label='Age'
+              size='small'
+              fullWidth
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              defaultValue=''
+            >
+              <MenuItem value={10}>Nablus</MenuItem>
+              <MenuItem value={20}>Hebron</MenuItem>
+              <MenuItem value={30}>Ramallah</MenuItem>
+            </Select>
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>HCP Type</Typography>
+            <Select
+              label='Age'
+              size='small'
+              fullWidth
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              defaultValue=''
+            >
+              <MenuItem value={10}>Doctor</MenuItem>
+              <MenuItem value={20}>Lab</MenuItem>
+              <MenuItem value={30}>Medical Service Center</MenuItem>
+              <MenuItem value={30}>Pharmacy</MenuItem>
+              <MenuItem value={30}>Rad</MenuItem>
+            </Select>
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>Type</Typography>
+            <Select
+              label='Age'
+              size='small'
+              fullWidth
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              defaultValue=''
+            >
+              <MenuItem value={10}>Chronic</MenuItem>
+              <MenuItem value={20}>Dental</MenuItem>
+              <MenuItem value={30}>Maternity</MenuItem>
+              <MenuItem value={30}>Optical</MenuItem>
+              <MenuItem value={30}>Regular</MenuItem>
+            </Select>
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>Dependance</Typography>
+            <Select
+              label='Age'
+              size='small'
+              fullWidth
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              defaultValue=''
+            >
+              <MenuItem value={10}>HOF</MenuItem>
+              <MenuItem value={20}>Child</MenuItem>
+              <MenuItem value={30}>Parent</MenuItem>
+              <MenuItem value={30}>Spouse</MenuItem>
+            </Select>
+          </Box>
+          <Divider />
+          <Button fullWidth size='medium' type='submit' variant='contained' sx={{ mb: 5.25 }}>
+            Create Report
+          </Button>
+        </Box>
+
+        {/* Report title Date Range Provider Policy ID Claim Payment Type ( Cash, Cheque, Credit Card, Debit Card, Online
+        Banking, Mobile Banking, etc.) Doctor City HCP Type ( Doctor, Lab, Medical Service Center, Pharmacy, Rad ) Type
+        ( Chronic, Dental, Maternity, Optical, Regular ) Dependance ( HOF, Child, Parent, Spouse ) */}
       </Drawer>
       <Grid item xs={12}>
         <Card>
           <Stack direction='row' alignItems='center' justifyContent='space-between'>
             <CardHeader title='Reports' />
-            <Button variant='contained'
+            <Button
+              variant='contained'
               sx={{ marginRight: 5 }}
-              onClick={(event: React.KeyboardEvent | React.MouseEvent) => setOpenDrawer(true)}>New Report</Button>
+              onClick={(event: React.KeyboardEvent | React.MouseEvent) => setOpenDrawer(true)}
+            >
+              New Report
+            </Button>
           </Stack>
           <CardContent>
-            <Typography sx={{ mb: 2 }}>Effortlessly manage custom fraud detection reports, each capturing specific filters for analyzing transactions. Create and explore reports to uncover fraud and non-fraud patterns in your data.</Typography>
+            <Typography sx={{ mb: 2 }}>
+              Effortlessly manage custom fraud detection reports, each capturing specific filters for analyzing
+              transactions. Create and explore reports to uncover fraud and non-fraud patterns in your data.
+            </Typography>
             <DataGrid
               autoHeight
               columns={columns}

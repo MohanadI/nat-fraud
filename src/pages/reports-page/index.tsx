@@ -13,6 +13,8 @@ import { ThemeColor } from 'src/@core/layouts/types'
 import { DataGridRowType } from 'src/@fake-db/types'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
+import { useTheme } from '@mui/material/styles'
+
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
 import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
@@ -27,6 +29,9 @@ import Icon from 'src/@core/components/icon'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 // ** Custom Component Imports
 import CustomInput from './PickersCustomInput'
+
+// ** Util Import
+import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 
 interface StatusObj {
   [key: number]: {
@@ -43,7 +48,32 @@ const rows = [
     full_name: "Report 6574",
     filters: ["19/12/2023", "Arab Hospital"],
     result: [20, 30, 50],
-  }];
+  },
+  {
+    id: 2,
+    full_name: "Report 4683",
+    filters: ["20/01/2024", "Isteshari Hospital"],
+    result: [10, 35, 55],
+  },
+  {
+    id: 3,
+    full_name: "Report 1209",
+    filters: ["Dental", "Lab", "Policy:342"],
+    result: [12, 20, 68],
+  },
+  {
+    id: 4,
+    full_name: "Report 3214",
+    filters: ["22/04/2023-22/10/2023", "GP"],
+    result: [5, 35, 60],
+  },
+  {
+    id: 5,
+    full_name: "Report 3003",
+    filters: ["HOF", "Ramallah"],
+    result: [10, 35, 55],
+  },
+];
 
 const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProps['popperPlacement'] }) => {
   // ** States
@@ -53,6 +83,9 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
   const [filteredData, setFilteredData] = useState<DataGridRowType[]>([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
   const [date, setDate] = useState<DateType>(new Date())
+
+  const theme = useTheme();
+
 
   const statusObj: StatusObj = {
     1: { title: 'current', color: 'primary' },
@@ -99,13 +132,11 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
       field: 'filters',
       headerName: 'Filters',
       renderCell: (params: GridRenderCellParams) => {
-        return (
-          <>
-            {params.row.filters.map((item: any) => {
-              return <Chip label='Outlined' variant='outlined' />
-            })}
-          </>
-        )
+        return <>
+          {params.row.filters.map((item: any) => {
+            return <Chip label={item} variant='outlined' sx={{ ml: 1 }}/>
+          })}
+        </>
       }
     },
     {
@@ -126,26 +157,18 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               overflow: 'hidden'
             }}
           >
-            <Tooltip title={`Fraud: ${params.row.result[0]}%`} placement='top'>
-              <div
-                className='grid-result-fraud'
-                style={{ width: params.row.result[0] + '%', background: 'red', height: '100%' }}
-              ></div>
-            </Tooltip>
 
-            <Tooltip title={`Waste: ${params.row.result[1]}%`} placement='top'>
-              <div
-                className='grid-result-waste'
-                style={{ width: params.row.result[1] + '%', background: 'yellow', height: '100%' }}
-              ></div>
-            </Tooltip>
-            <Tooltip title={`Normal: ${params.row.result[2]}%`} placement='top'>
-              <div
-                className='grid-result-normal'
-                style={{ width: params.row.result[2] + '%', background: 'green', height: '100%' }}
-              ></div>
-            </Tooltip>
-          </div>
+          <Tooltip title={`Fraud: ${params.row.result[0]}%`} placement='top'>
+            <div className="grid-result-fraud" style={{ width: params.row.result[0] + '%', background: hexToRGBA(theme.palette.error.light, 1), height: '100%' }}></div>
+          </Tooltip>
+
+          <Tooltip title={`Waste: ${params.row.result[1]}%`} placement='top'>
+            <div className="grid-result-waste" style={{ width: params.row.result[1] + '%', background: hexToRGBA(theme.palette.warning.light, 1), height: '100%' }}></div>
+          </Tooltip>
+          <Tooltip title={`Normal: ${params.row.result[2]}%`} placement='top'>
+            <div className="grid-result-normal" style={{ width: params.row.result[2] + '%', background: hexToRGBA(theme.palette.success.light, 1), height: '100%' }}></div>
+          </Tooltip>
+        </div>
         )
       }
     },
@@ -202,6 +225,14 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
             <TextField size='small' fullWidth />
           </Box>
           <Box sx={{ mb: 4 }}>
+            <Typography>Subscriber ID</Typography>
+            <TextField size='small' fullWidth />
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography>HOF ID</Typography>
+            <TextField size='small' fullWidth />
+          </Box>
+          <Box sx={{ mb: 4 }}>
             <Typography>Date</Typography>
             <DatePicker
               selected={date}
@@ -248,7 +279,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
             </Select>
           </Box>
           <Box sx={{ mb: 4 }}>
-            <Typography>Doctor</Typography>
+            <Typography>HCP Name</Typography>
             <TextField size='small' fullWidth />
           </Box>
           <Box sx={{ mb: 4 }}>
@@ -284,7 +315,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
             </Select>
           </Box>
           <Box sx={{ mb: 4 }}>
-            <Typography>Type</Typography>
+            <Typography>Visits Type</Typography>
             <Select
               label='Age'
               size='small'

@@ -90,16 +90,10 @@ const CrmOrganicSessions = () => {
   return (
     <Card>
       <CardHeader
-        title='Transactions Indicator'
-        action={
-          <OptionsMenu
-            options={['Last 28 Days', 'Last Month', 'Last Year']}
-            iconButtonProps={{ size: 'small', className: 'card-more-options' }}
-          />
-        }
+        title='Fraud Indicator'
       />
       <CardContent>
-        <ReactApexcharts type='donut' height={257} options={options} series={[15, 6, 3]} />
+        <ReactApexcharts type='donut' height={220} options={options} series={[22, 15, 5]} />
         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
           <Box sx={{ mx: 3, display: 'flex', alignItems: 'center', '& svg': { mr: 1.25, color: hexToRGBA(theme.palette.success.main, 0.4) } }}>
             <Icon icon='mdi:circle' fontSize='0.75rem' />

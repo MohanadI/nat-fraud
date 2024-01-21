@@ -58,22 +58,11 @@ const Home = () => {
           chipText='Last Six Month'
           icon={<Icon icon='mdi:currency-usd' />}
         />
-
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <CardWidgetsSalesCountry />
       </Grid>
-      <Grid item xs={6} sm={3} md={2}>
-        <CardStatsVertical
-          stats='155k'
-          color='primary'
-          trendNumber='+22%'
-          title='Total Orders'
-          chipText='Last 4 Month'
-          icon={<Icon icon='mdi:cart-plus' />}
-        />
-      </Grid>
-      <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={6}>
         <CrmOrganicSessions />
       </Grid>
       <Grid item xs={12}>
@@ -86,9 +75,6 @@ const Home = () => {
           primary={lineChartPrimary}
           warning={lineChartWarning}
         />
-      </Grid>
-      <Grid item xs={12}>
-        <TableColumns />
       </Grid>
     </Grid>
   )

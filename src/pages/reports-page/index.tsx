@@ -162,6 +162,7 @@ const ReportsPage = () => {
       field: 'actions',
       headerName: 'Actions',
       renderCell: (params: GridRenderCellParams) => {
+        const { row } = params;
         return (
           <>
             <IconButton>
@@ -170,7 +171,7 @@ const ReportsPage = () => {
             <IconButton>
               <Icon icon='mdi:reload' fontSize={20} />
             </IconButton>
-            <ActionsMenu></ActionsMenu>
+            <ActionsMenu report={row}></ActionsMenu>
           </>
         )
       }

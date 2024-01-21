@@ -8,7 +8,11 @@ import MenuItem from '@mui/material/MenuItem'
 import Icon from 'src/@core/components/icon'
 import { IconButton } from '@mui/material'
 
-const ActionsMenu = () => {
+interface Props {
+  report: {name: string}
+}
+
+const ActionsMenu = (props: Props) => {
   // ** State
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
@@ -18,6 +22,23 @@ const ActionsMenu = () => {
 
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const downloadAsPDF = (report: any) => {
+    setAnchorEl(null)
+    fetch('/files/NAT_PDF_export_sample.pdf', {
+      method: 'GET'
+  })
+    .then(res => res.blob())
+    .then(blob => {
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', report.full_name + '.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode && link.parentNode.removeChild(link);
+    });
   }
 
   return (
@@ -34,10 +55,10 @@ const ActionsMenu = () => {
           <Icon icon='mdi:delete' fontSize={20} />
           Delete
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => downloadAsPDF(props.report)}>
           <Icon icon='mdi:file-pdf-box' fontSize={20} />
           Export as PDF
-          </MenuItem>
+        </MenuItem>
         <MenuItem onClick={handleClose}>
           <Icon icon='mdi:table' fontSize={20} />
           Export as CSV

@@ -10,7 +10,7 @@ import Icon from 'src/@core/components/icon'
 import { Avatar, Box, Button, Chip, Divider, IconButton, MenuItem, Select, TextField, Tooltip } from '@mui/material'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PredictionRowType } from 'src/@fake-db/types'
 import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
 
@@ -96,6 +96,17 @@ const rows = [
 const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerProps['popperPlacement'] }) => {
   const [data, setData] = useState<PredictionRowType[]>(rows)
   const [date, setDate] = useState<DateType>(new Date())
+  const [reportName, setReportName] = useState<string>('')
+  const [subscriberId, setSubscriberId] = useState<string>('')
+  const [hofId, setHofId] = useState<string>('')
+  const [provider, setProvider] = useState<string>('')
+  const [policyId, setPolicyId] = useState<string>('')
+  const [claimPaymentType, setClaimPaymentType] = useState<string>('')
+  const [hcpName, setHcpName] = useState<string>('')
+  const [city, setCity] = useState<string>('')
+  const [hcpType, setHcpType] = useState<string>('')
+  const [visitType, setVisitType] = useState<string>('')
+  const [dependance, setDependance] = useState<string>('')
   const [searchText, setSearchText] = useState<string>('')
 
   const [filteredData, setFilteredData] = useState<PredictionRowType[]>([])
@@ -122,6 +133,25 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
       setFilteredData([])
     }
   }
+
+  useEffect( () => {
+    const queryParameters = new URLSearchParams(window.location.search)
+    const reportId = queryParameters.get("id")
+    if (reportId == '11' && localStorage.getItem('createReportFilters')) {
+      let createReportFilters = JSON.parse(localStorage.getItem('createReportFilters')!);
+      createReportFilters.date && setDate(new Date(createReportFilters.date));
+      createReportFilters.subscriberId && setSubscriberId(createReportFilters.subscriberId);
+      createReportFilters.hofId && setHofId(createReportFilters.hofId);
+      createReportFilters.provider && setProvider(createReportFilters.provider);
+      createReportFilters.policyId && setPolicyId(createReportFilters.policyId);
+      createReportFilters.claimPaymentType && setClaimPaymentType(createReportFilters.claimPaymentType);
+      createReportFilters.hcpName && setHcpName(createReportFilters.hcpName);
+      createReportFilters.city && setCity(createReportFilters.city);
+      createReportFilters.hcpType && setHcpType(createReportFilters.hcpType);
+      createReportFilters.visitType && setVisitType(createReportFilters.visitType);
+      createReportFilters.dependance && setDependance(createReportFilters.dependance);
+    }
+  }, [])
 
   const columns: GridColDef[] = [
     {
@@ -204,11 +234,11 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
                     <Box>
                       <Box sx={{ mb: 4 }}>
                         <Typography>Subscriber ID</Typography>
-                        <TextField size='small' fullWidth />
+                        <TextField value={subscriberId} size='small' fullWidth onChange={(event) => setSubscriberId(event.target.value)} />
                       </Box>
                       <Box sx={{ mb: 4 }}>
                         <Typography>HOF ID</Typography>
-                        <TextField size='small' fullWidth />
+                        <TextField size='small' value={hofId} fullWidth onChange={(event) => setHofId(event.target.value)} />
                       </Box>
                       <Box sx={{ mb: 4 }}>
                         <Typography>Date</Typography>
@@ -224,12 +254,14 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
                       <Box sx={{ mb: 4 }}>
                         <Typography>Provider</Typography>
                         <Select
-                          label='Age'
+                          label='Provider'
                           size='small'
                           fullWidth
                           labelId='demo-simple-select-label'
                           id='demo-simple-select'
                           defaultValue=''
+                          value={provider}
+                          onChange={(event) => setProvider(event.target.value)}
                         >
                           <MenuItem value={10}>Jawwal</MenuItem>
                           <MenuItem value={20}>Oreedo</MenuItem>
@@ -238,7 +270,7 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
                       </Box>
                       <Box sx={{ mb: 4 }}>
                         <Typography>Policy ID</Typography>
-                        <TextField size='small' fullWidth />
+                        <TextField size='small' value={policyId} fullWidth onChange={(event) => setPolicyId(event.target.value)} />
                       </Box>
                       <Box sx={{ mb: 4 }}>
                         <Typography>Claim Payment Type</Typography>
@@ -249,6 +281,8 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
                           labelId='demo-simple-select-label'
                           id='demo-simple-select'
                           defaultValue=''
+                          value={claimPaymentType}
+                          onChange={(event) => setClaimPaymentType(event.target.value)}
                         >
                           <MenuItem value={10}>Cash</MenuItem>
                           <MenuItem value={20}>Cheque</MenuItem>
@@ -258,7 +292,7 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
                       </Box>
                       <Box sx={{ mb: 4 }}>
                         <Typography>HCP Name</Typography>
-                        <TextField size='small' fullWidth />
+                        <TextField size='small' value={hcpName} fullWidth onChange={(event) => setHcpName(event.target.value)} />
                       </Box>
                       <Box sx={{ mb: 4 }}>
                         <Typography>City</Typography>
@@ -269,6 +303,8 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
                           labelId='demo-simple-select-label'
                           id='demo-simple-select'
                           defaultValue=''
+                          value={city}
+                          onChange={(event) => setCity(event.target.value)}
                         >
                           <MenuItem value={10}>Nablus</MenuItem>
                           <MenuItem value={20}>Hebron</MenuItem>
@@ -284,6 +320,8 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
                           labelId='demo-simple-select-label'
                           id='demo-simple-select'
                           defaultValue=''
+                          value={hcpType}
+                          onChange={(event) => setHcpType(event.target.value)}
                         >
                           <MenuItem value={10}>Doctor</MenuItem>
                           <MenuItem value={20}>Lab</MenuItem>
@@ -301,6 +339,8 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
                           labelId='demo-simple-select-label'
                           id='demo-simple-select'
                           defaultValue=''
+                          value={visitType}
+                          onChange={(event) => setVisitType(event.target.value)}
                         >
                           <MenuItem value={10}>Chronic</MenuItem>
                           <MenuItem value={20}>Dental</MenuItem>
@@ -318,6 +358,8 @@ const ReportDetails = ({ popperPlacement }: { popperPlacement: ReactDatePickerPr
                           labelId='demo-simple-select-label'
                           id='demo-simple-select'
                           defaultValue=''
+                          value={dependance}
+                          onChange={(event) => setDependance(event.target.value)}
                         >
                           <MenuItem value={10}>HOF</MenuItem>
                           <MenuItem value={20}>Child</MenuItem>

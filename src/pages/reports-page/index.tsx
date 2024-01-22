@@ -83,6 +83,17 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
   const [filteredData, setFilteredData] = useState<DataGridRowType[]>([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
   const [date, setDate] = useState<DateType>(new Date())
+  const [reportName, setReportName] = useState<string>('')
+  const [subscriberId, setSubscriberId] = useState<string>('')
+  const [hofId, setHofId] = useState<string>('')
+  const [provider, setProvider] = useState<string>('')
+  const [policyId, setPolicyId] = useState<string>('')
+  const [claimPaymentType, setClaimPaymentType] = useState<string>('')
+  const [hcpName, setHcpName] = useState<string>('')
+  const [city, setCity] = useState<string>('')
+  const [hcpType, setHcpType] = useState<string>('')
+  const [visitType, setVisitType] = useState<string>('')
+  const [dependance, setDependance] = useState<string>('')
 
   const theme = useTheme();
 
@@ -210,6 +221,27 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
     }
   }
 
+  const createReportWithFilters = () => {
+    const filters = {
+      date,
+      reportName,
+      subscriberId,
+      hofId,
+      provider,
+      policyId,
+      claimPaymentType,
+      hcpName,
+      city,
+      hcpType,
+      visitType,
+      dependance
+    };
+
+    localStorage.setItem("createReportFilters", JSON.stringify(filters))
+
+    window.location.href = '/report-details?id=11';
+  }
+
   return (
     <Grid container spacing={6}>
       <Drawer
@@ -223,15 +255,15 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           </Typography>
           <Box sx={{ mb: 4 }}>
             <Typography>Report Title</Typography>
-            <TextField size='small' fullWidth />
+            <TextField size='small' fullWidth onChange={(event) => setReportName(event.target.value)}/>
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>Subscriber ID</Typography>
-            <TextField size='small' fullWidth />
+            <TextField size='small' fullWidth onChange={(event) => setSubscriberId(event.target.value)}/>
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>HOF ID</Typography>
-            <TextField size='small' fullWidth />
+            <TextField size='small' fullWidth onChange={(event) => setHofId(event.target.value)} />
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>Date</Typography>
@@ -247,12 +279,13 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           <Box sx={{ mb: 4 }}>
             <Typography>Provider</Typography>
             <Select
-              label='Age'
+              label='Provider'
               size='small'
               fullWidth
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
+              onChange={(event) => setProvider(event.target.value)}
             >
               <MenuItem value={10}>Jawwal</MenuItem>
               <MenuItem value={20}>Oreedo</MenuItem>
@@ -261,7 +294,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>Policy ID</Typography>
-            <TextField size='small' fullWidth />
+            <TextField size='small' fullWidth onChange={(event) => setPolicyId(event.target.value)} />
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>Claim Payment Type</Typography>
@@ -272,6 +305,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
+              onChange={(event) => setClaimPaymentType(event.target.value)}
             >
               <MenuItem value={10}>Cash</MenuItem>
               <MenuItem value={20}>Cheque</MenuItem>
@@ -281,17 +315,18 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>HCP Name</Typography>
-            <TextField size='small' fullWidth />
+            <TextField size='small' fullWidth onChange={(event) => setHcpName(event.target.value)} />
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>City</Typography>
             <Select
-              label='Age'
+              label='City'
               size='small'
               fullWidth
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
+              onChange={(event) => setCity(event.target.value)}
             >
               <MenuItem value={10}>Nablus</MenuItem>
               <MenuItem value={20}>Hebron</MenuItem>
@@ -301,12 +336,13 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           <Box sx={{ mb: 4 }}>
             <Typography>HCP Type</Typography>
             <Select
-              label='Age'
+              label='HCP Type'
               size='small'
               fullWidth
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
+              onChange={(event) => setHcpType(event.target.value)}
             >
               <MenuItem value={10}>Doctor</MenuItem>
               <MenuItem value={20}>Lab</MenuItem>
@@ -318,12 +354,13 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           <Box sx={{ mb: 4 }}>
             <Typography>Visits Type</Typography>
             <Select
-              label='Age'
+              label='Visits Type'
               size='small'
               fullWidth
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
+              onChange={(event) => setVisitType(event.target.value)}
             >
               <MenuItem value={10}>Chronic</MenuItem>
               <MenuItem value={20}>Dental</MenuItem>
@@ -335,12 +372,13 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           <Box sx={{ mb: 4 }}>
             <Typography>Dependance</Typography>
             <Select
-              label='Age'
+              label='Dependance'
               size='small'
               fullWidth
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
+              onChange={(event) => setDependance(event.target.value)}
             >
               <MenuItem value={10}>HOF</MenuItem>
               <MenuItem value={20}>Child</MenuItem>
@@ -349,7 +387,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
             </Select>
           </Box>
           <Divider />
-          <Button fullWidth size='medium' type='submit' variant='contained' sx={{ mb: 5.25 }}>
+          <Button fullWidth size='medium' type='submit' variant='contained' sx={{ mb: 5.25 }} onClick={createReportWithFilters}>
             Create Report
           </Button>
         </Box>

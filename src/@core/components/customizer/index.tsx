@@ -178,7 +178,7 @@ const Customizer = () => {
                   onClick={() => handleChange('themeColor', 'primary')}
                   sx={{
                     ml: 0,
-                    backgroundColor: '#666CFF',
+                    backgroundColor: '#4d51ba',
                     ...(themeColor === 'primary' ? { boxShadow: 9 } : { '&:hover': { boxShadow: 4 } })
                   }}
                 >

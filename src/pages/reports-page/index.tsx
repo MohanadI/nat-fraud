@@ -45,35 +45,59 @@ type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const rows = [
   {
     id: 1,
-    full_name: "Report 6574",
-    filters: ["19/12/2023", "Arab Hospital"],
-    result: [20, 30, 50],
+    full_name: 'Report 6574',
+    filters: ['19/12/2023', 'Arab Hospital'],
+    result: [20, 30, 50]
   },
   {
     id: 2,
-    full_name: "Report 4683",
-    filters: ["20/01/2024", "Isteshari Hospital"],
-    result: [10, 35, 55],
+    full_name: 'Report 4683',
+    filters: ['20/01/2024', 'Isteshari Hospital'],
+    result: [10, 35, 55]
   },
   {
     id: 3,
-    full_name: "Report 1209",
-    filters: ["Dental", "Lab", "Policy:342"],
-    result: [12, 20, 68],
+    full_name: 'Report 1209',
+    filters: ['Dental', 'Lab', 'Policy:342'],
+    result: [12, 20, 68]
   },
   {
     id: 4,
-    full_name: "Report 3214",
-    filters: ["22/04/2023-22/10/2023", "GP"],
-    result: [5, 35, 60],
+    full_name: 'Report 3214',
+    filters: ['22/04/2023-22/10/2023', 'GP'],
+    result: [5, 35, 60]
   },
   {
     id: 5,
-    full_name: "Report 3003",
-    filters: ["HOF", "Ramallah"],
-    result: [10, 35, 55],
+    full_name: 'Report 3003',
+    filters: ['HOF', 'Ramallah'],
+    result: [10, 35, 55]
   },
-];
+  {
+    id: 6,
+    full_name: 'Jawwal Report 123',
+    filters: ['HOF'],
+    result: [10, 10, 60]
+  },
+  {
+    id: 7,
+    full_name: 'Report 1234',
+    filters: ['HOF', 'Policy:342'],
+    result: [10, 35, 55]
+  },
+  {
+    id: 8,
+    full_name: 'Report 999',
+    filters: ['HOF', 'Policy:342'],
+    result: [10, 20, 70]
+  },
+  {
+    id: 9,
+    full_name: 'Report 76576',
+    filters: ['HOF', 'Policy:342'],
+    result: [10, 35, 55]
+  }
+]
 
 const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProps['popperPlacement'] }) => {
   // ** States
@@ -255,15 +279,15 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           </Typography>
           <Box sx={{ mb: 4 }}>
             <Typography>Report Title</Typography>
-            <TextField size='small' fullWidth onChange={(event) => setReportName(event.target.value)}/>
+            <TextField size='small' fullWidth onChange={event => setReportName(event.target.value)} />
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>Subscriber ID</Typography>
-            <TextField size='small' fullWidth onChange={(event) => setSubscriberId(event.target.value)}/>
+            <TextField size='small' fullWidth onChange={event => setSubscriberId(event.target.value)} />
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>HOF ID</Typography>
-            <TextField size='small' fullWidth onChange={(event) => setHofId(event.target.value)} />
+            <TextField size='small' fullWidth onChange={event => setHofId(event.target.value)} />
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>Date</Typography>
@@ -285,7 +309,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
-              onChange={(event) => setProvider(event.target.value)}
+              onChange={event => setProvider(event.target.value)}
             >
               <MenuItem value={10}>Jawwal</MenuItem>
               <MenuItem value={20}>Oreedo</MenuItem>
@@ -294,7 +318,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>Policy ID</Typography>
-            <TextField size='small' fullWidth onChange={(event) => setPolicyId(event.target.value)} />
+            <TextField size='small' fullWidth onChange={event => setPolicyId(event.target.value)} />
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>Claim Payment Type</Typography>
@@ -305,7 +329,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
-              onChange={(event) => setClaimPaymentType(event.target.value)}
+              onChange={event => setClaimPaymentType(event.target.value)}
             >
               <MenuItem value={10}>Cash</MenuItem>
               <MenuItem value={20}>Cheque</MenuItem>
@@ -315,7 +339,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>HCP Name</Typography>
-            <TextField size='small' fullWidth onChange={(event) => setHcpName(event.target.value)} />
+            <TextField size='small' fullWidth onChange={event => setHcpName(event.target.value)} />
           </Box>
           <Box sx={{ mb: 4 }}>
             <Typography>City</Typography>
@@ -326,7 +350,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
-              onChange={(event) => setCity(event.target.value)}
+              onChange={event => setCity(event.target.value)}
             >
               <MenuItem value={10}>Nablus</MenuItem>
               <MenuItem value={20}>Hebron</MenuItem>
@@ -342,7 +366,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
-              onChange={(event) => setHcpType(event.target.value)}
+              onChange={event => setHcpType(event.target.value)}
             >
               <MenuItem value={10}>Doctor</MenuItem>
               <MenuItem value={20}>Lab</MenuItem>
@@ -360,7 +384,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
-              onChange={(event) => setVisitType(event.target.value)}
+              onChange={event => setVisitType(event.target.value)}
             >
               <MenuItem value={10}>Chronic</MenuItem>
               <MenuItem value={20}>Dental</MenuItem>
@@ -378,7 +402,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               defaultValue=''
-              onChange={(event) => setDependance(event.target.value)}
+              onChange={event => setDependance(event.target.value)}
             >
               <MenuItem value={10}>HOF</MenuItem>
               <MenuItem value={20}>Child</MenuItem>
@@ -387,7 +411,14 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
             </Select>
           </Box>
           <Divider />
-          <Button fullWidth size='medium' type='submit' variant='contained' sx={{ mb: 5.25 }} onClick={createReportWithFilters}>
+          <Button
+            fullWidth
+            size='medium'
+            type='submit'
+            variant='contained'
+            sx={{ mb: 5.25 }}
+            onClick={createReportWithFilters}
+          >
             Create Report
           </Button>
         </Box>
@@ -400,13 +431,21 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
         <Card>
           <Stack direction='row' alignItems='center' justifyContent='space-between'>
             <CardHeader title='Reports' />
-            <Button
-              variant='contained'
-              sx={{ marginRight: 5 }}
-              onClick={(event: React.KeyboardEvent | React.MouseEvent) => setOpenDrawer(true)}
-            >
-              New Report
-            </Button>
+            <Box>
+              <Button
+                variant='outlined'
+                sx={{ marginRight: 5 }}
+              >
+                Schedule Report
+              </Button>
+              <Button
+                variant='contained'
+                sx={{ marginRight: 5 }}
+                onClick={(event: React.KeyboardEvent | React.MouseEvent) => setOpenDrawer(true)}
+              >
+                New Report
+              </Button>
+            </Box>
           </Stack>
           <CardContent>
             <Typography sx={{ mb: 2 }}>

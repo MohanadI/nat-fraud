@@ -106,7 +106,7 @@ const CardWidgetsSalesCountry = () => {
     <Card>
       <CardHeader
         title='Transactions City'
-        subheader='Total ₪42,580 Sales'
+        subheader='Total ₪42,580 Invoices'
         subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
         titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
         action={

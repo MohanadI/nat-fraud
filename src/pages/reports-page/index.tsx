@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
@@ -9,38 +10,29 @@ import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import 'react-datepicker/dist/react-datepicker.css'
 
 // ** Types Imports
-import { ThemeColor } from 'src/@core/layouts/types'
 import { DataGridRowType } from 'src/@fake-db/types'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
 import { useTheme } from '@mui/material/styles'
 
 // ** Custom Components
-import CustomChip from 'src/@core/components/mui/chip'
 import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
 
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
-import { Box, Button, Divider, Drawer, IconButton, Menu, MenuItem, Select, Stack, TextField, Tooltip } from '@mui/material'
+import { Box, Button, Divider, Drawer, IconButton, MenuItem, Select, Stack, TextField, Tooltip } from '@mui/material'
 import Chip from 'src/@core/components/mui/chip'
 import ActionsMenu from './ActionsMenu'
 import Icon from 'src/@core/components/icon'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
+
 // ** Custom Component Imports
 import CustomInput from './PickersCustomInput'
 import { ScheduleReport } from './ScheduleReport'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-import { set } from 'nprogress'
-
-interface StatusObj {
-  [key: number]: {
-    title: string
-    color: ThemeColor
-  }
-}
 
 const rows = [
   {
@@ -101,7 +93,7 @@ const rows = [
 
 const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProps['popperPlacement'] }) => {
   // ** States
-  const [data, setData] = useState<DataGridRowType[]>(rows)
+  const [data, setData] = useState<DataGridRowType[]>([])
   const [openScheduleReport, setOpenScheduleReport] = useState<boolean>(false)
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
   const [searchText, setSearchText] = useState<string>('')
@@ -122,14 +114,9 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
 
   const theme = useTheme();
 
-
-  const statusObj: StatusObj = {
-    1: { title: 'current', color: 'primary' },
-    2: { title: 'professional', color: 'success' },
-    3: { title: 'rejected', color: 'error' },
-    4: { title: 'resigned', color: 'warning' },
-    5: { title: 'applied', color: 'info' }
-  }
+  useEffect(() => {
+    setData(rows)
+  }, []);
 
   const escapeRegExp = (value: string) => {
     return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
@@ -176,7 +163,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
       renderCell: (params: GridRenderCellParams) => {
         return <>
           {params.row.filters.map((item: any) => {
-            return <Chip label={item} variant='outlined' sx={{ ml: 1 }}/>
+            return <Chip key={item} label={item} variant='outlined' sx={{ ml: 1 }} />
           })}
         </>
       }
@@ -221,6 +208,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
       headerName: 'Actions',
       renderCell: (params: GridRenderCellParams) => {
         const { row } = params;
+
         return (
           <>
             <IconButton component={Link} href='/report-details'>
@@ -278,7 +266,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
       <Drawer
         anchor={'right'}
         open={openDrawer}
-        onClose={(event: React.KeyboardEvent | React.MouseEvent) => setOpenDrawer(false)}
+        onClose={() => setOpenDrawer(false)}
       >
         <Box sx={{ width: 400, p: 4 }}>
           <Typography component='h3' variant='body1' sx={{ mb: 4, fontWeight: 'bold', fontSize: 18 }}>
@@ -447,14 +435,14 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               <Button
                 variant='outlined'
                 sx={{ marginRight: 5 }}
-                onClick={(event: React.KeyboardEvent | React.MouseEvent) => setOpenScheduleReport(true)}
+                onClick={() => setOpenScheduleReport(true)}
               >
                 Schedule Report
               </Button>
               <Button
                 variant='contained'
                 sx={{ marginRight: 5 }}
-                onClick={(event: React.KeyboardEvent | React.MouseEvent) => setOpenDrawer(true)}
+                onClick={() => setOpenDrawer(true)}
               >
                 New Report
               </Button>

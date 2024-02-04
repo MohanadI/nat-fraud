@@ -73,8 +73,8 @@ const getFullName = (params: GridRenderCellParams) =>
   )
 
 const TableColumns = () => {
-  
-  let rows = [
+
+  const rows = [
     {
       id: 1,
       avatar: '8.png',
@@ -102,6 +102,7 @@ const TableColumns = () => {
       status: 3
     },
   ];
+
   // ** States
   const [hideNameColumn, setHideNameColumn] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })

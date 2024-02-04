@@ -55,7 +55,7 @@ export const ScheduleReport = ({
     <Drawer
       anchor={'right'}
       open={openDrawer}
-      onClose={(event: React.KeyboardEvent | React.MouseEvent) => {
+      onClose={() => {
         setOpenDrawer(false)
         onClose()
       }}

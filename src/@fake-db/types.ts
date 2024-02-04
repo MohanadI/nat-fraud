@@ -149,6 +149,7 @@ export type DataGridRowType = {
   filters: string[]
   result: number[]
 }
+
 // Predictions
 //---------------
 export type PredictionRowType = {
@@ -158,6 +159,7 @@ export type PredictionRowType = {
   visit_date: string
   status: string
 }
+
 // Help Center
 //------------
 export type HelpCenterSubcategoryArticlesType = {

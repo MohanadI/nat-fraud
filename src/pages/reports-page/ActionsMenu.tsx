@@ -3,7 +3,6 @@ import { MouseEvent, useState } from 'react'
 
 // ** MUI Imports
 import Menu from '@mui/material/Menu'
-import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import Icon from 'src/@core/components/icon'
 import { IconButton } from '@mui/material'

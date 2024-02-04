@@ -29,7 +29,7 @@ import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 
 // ** Custom Component Imports
 import CustomInput from './PickersCustomInput'
-import { ScheduleReport } from './ScheduleReport'
+import ScheduleReport from './ScheduleReport'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'

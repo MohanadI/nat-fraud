@@ -24,7 +24,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 // ** Data Types
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
-export const ScheduleReport = ({
+export default function ScheduleReport({
   popperPlacement,
   open,
   onClose
@@ -32,7 +32,7 @@ export const ScheduleReport = ({
   popperPlacement: ReactDatePickerProps['popperPlacement']
   open: boolean
   onClose: () => void
-}) => {
+}){
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
   const [date, setDate] = useState<DateType>(new Date())
 

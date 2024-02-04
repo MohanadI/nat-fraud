@@ -29,9 +29,11 @@ import Icon from 'src/@core/components/icon'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 // ** Custom Component Imports
 import CustomInput from './PickersCustomInput'
+import { ScheduleReport } from './ScheduleReport'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import { set } from 'nprogress'
 
 interface StatusObj {
   [key: number]: {
@@ -39,8 +41,6 @@ interface StatusObj {
     color: ThemeColor
   }
 }
-
-type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 const rows = [
   {
@@ -77,7 +77,7 @@ const rows = [
     id: 6,
     full_name: 'Jawwal Report 123',
     filters: ['HOF'],
-    result: [10, 10, 60]
+    result: [10, 10, 80]
   },
   {
     id: 7,
@@ -102,6 +102,7 @@ const rows = [
 const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProps['popperPlacement'] }) => {
   // ** States
   const [data, setData] = useState<DataGridRowType[]>(rows)
+  const [openScheduleReport, setOpenScheduleReport] = useState<boolean>(false)
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
   const [searchText, setSearchText] = useState<string>('')
   const [filteredData, setFilteredData] = useState<DataGridRowType[]>([])
@@ -155,8 +156,14 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
         const { row } = params
 
         return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Link href='/report-details'>{row.full_name}</Link>
+          <Box
+            component={Link}
+            href='/report-details'
+            sx={{
+              color: 'text.primary',
+            }}
+          >
+            {row.full_name}
           </Box>
         )
       }
@@ -216,7 +223,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
         const { row } = params;
         return (
           <>
-            <IconButton>
+            <IconButton component={Link} href='/report-details'>
               <Icon icon='mdi:pencil' fontSize={20} />
             </IconButton>
             <IconButton>
@@ -427,6 +434,11 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
         Banking, Mobile Banking, etc.) Doctor City HCP Type ( Doctor, Lab, Medical Service Center, Pharmacy, Rad ) Type
         ( Chronic, Dental, Maternity, Optical, Regular ) Dependance ( HOF, Child, Parent, Spouse ) */}
       </Drawer>
+      <ScheduleReport
+        popperPlacement={popperPlacement}
+        open={openScheduleReport}
+        onClose={() => setOpenScheduleReport(false)}
+      />
       <Grid item xs={12}>
         <Card>
           <Stack direction='row' alignItems='center' justifyContent='space-between'>
@@ -435,6 +447,7 @@ const ReportsPage = ({ popperPlacement }: { popperPlacement: ReactDatePickerProp
               <Button
                 variant='outlined'
                 sx={{ marginRight: 5 }}
+                onClick={(event: React.KeyboardEvent | React.MouseEvent) => setOpenScheduleReport(true)}
               >
                 Schedule Report
               </Button>

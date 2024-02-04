@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField'
 interface PickerProps {
   label?: string
   readOnly?: boolean
+  InputProps?: any
 }
 
 const PickersComponent = forwardRef(({ ...props }: PickerProps, ref) => {
@@ -15,11 +16,11 @@ const PickersComponent = forwardRef(({ ...props }: PickerProps, ref) => {
 
   return (
     <TextField
-      inputRef={ref}
-      {...props}
       label={label || ''}
       size='small'
       fullWidth
+      inputRef={ref}
+      {...props}
       {...(readOnly && { inputProps: { readOnly: true } })}
     />
   )
